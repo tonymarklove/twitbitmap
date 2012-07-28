@@ -1,0 +1,42 @@
+body {
+  font: 14px 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+a {
+  color: #4682b4
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 300;
+  margin: 0;
+  padding: 0 0 0.6em 0;
+}
+
+h1 span {
+  color: #cac5b9;
+}
+
+
+#page-container {
+  width: 960px;
+  margin: 0 auto;
+}
+
+#page-header {
+  background: url('/assets/olympic_rings.png') 130px 0 no-repeat
+}
+
+.gallery {
+  position: relative;
+  width: 970px;
+}
+
+.cell {
+  border: 1px solid white;
+  font: 10px/12px sans-serif;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+  background-position: center;
+}
