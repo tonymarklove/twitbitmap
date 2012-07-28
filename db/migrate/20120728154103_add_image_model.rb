@@ -3,6 +3,7 @@ class AddImageModel < ActiveRecord::Migration
     create_table :images do |t|
       t.string :url
       t.integer :retweets
+	  t.string :caption
 	  
       t.timestamps
     end

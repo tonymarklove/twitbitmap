@@ -1,0 +1,14 @@
+(
+interaction.content contains "olympics"
+or interaction.title contains "olympics"
+or links.title contains "olympics"
+or interaction.content contains "#london2012"
+or interaction.title contains "#london2012"
+or links.title contains "#london2012"
+)
+and
+(
+links.retweet_count > 1
+and
+links.domain in "instagram.com"
+)
