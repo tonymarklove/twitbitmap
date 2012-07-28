@@ -54,4 +54,7 @@ jQuery(function($) {
         .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
         .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
   }
+  
+  initPusher();
+  
 });

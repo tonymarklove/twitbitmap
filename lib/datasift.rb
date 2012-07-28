@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'datasift'
 require 'yaml'
+require 'nokogiri'
+require 'open-uri'
 
 # Authentication
 puts 'Creating user...'
@@ -8,7 +10,7 @@ user = DataSift::User.new("rich_caudle", "bc583ac6e70761eb16f4f67e128ea824")
 
 # Create the consumer
 puts 'Getting the consumer...'
-consumer = user.getConsumer(DataSift::StreamConsumer::TYPE_HTTP, "899fce4c43ad0a4c0ecbf06a4495e9cf")
+consumer = user.getConsumer(DataSift::StreamConsumer::TYPE_HTTP, "a3bc61be953d4a594fd8819a1448c052")
 
 # Setting up the onStopped handler
 consumer.onStopped do |reason|
@@ -38,9 +40,14 @@ consumer.consume(true) do |interaction|
 		
 		puts 'Content: ' + content
 		puts 'Retweet count: ' + retweets.to_s
-		puts 'Image URL: ' + url
-				
-		image = Image.find_or_initialize_by_url(url)
+		puts 'Link URL: ' + url
+		
+		# Get page using Nokogiri
+		doc = Nokogiri::HTML(open(url))
+		imageUrl = doc.xpath('//div[@id="media_photo"]/span[@class="img"]/img').first.attr('src')
+		puts 'Image URL: ' + imageUrl		
+		
+		image = Image.find_or_initialize_by_url(imageUrl)
 		image.retweets = retweets
 		image.save
 
