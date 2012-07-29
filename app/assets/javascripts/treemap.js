@@ -1,8 +1,8 @@
 var d3Render = null;
 
 jQuery(function($) {
-  var width = 960,
-      height = 500,
+  var width = $('#page-container').width(),
+      height = $(window).height() - $("#page-header").outerHeight(true) - 20,
       color = d3.scale.category20c();
 
   var treemap = d3.layout.treemap()

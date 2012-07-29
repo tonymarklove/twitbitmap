@@ -19,12 +19,12 @@ h1 span {
 
 
 #page-container {
-  width: 960px;
-  margin: 0 auto;
 }
 
 #page-header {
-  background: url('/assets/olympic_rings.png') 130px 0 no-repeat
+  background: url('/assets/olympic_rings.png') 130px 0 no-repeat;
+  width: 960px;
+  margin: 0 auto;
 }
 
 .gallery {
