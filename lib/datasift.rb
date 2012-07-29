@@ -10,7 +10,7 @@ user = DataSift::User.new("rich_caudle", "bc583ac6e70761eb16f4f67e128ea824")
 
 # Create the consumer
 puts 'Getting the consumer...'
-consumer = user.getConsumer(DataSift::StreamConsumer::TYPE_HTTP, "28404c55b06937a3b2d625b733aa2440")
+consumer = user.getConsumer(DataSift::StreamConsumer::TYPE_HTTP, "56c2d1370bb9005374d9408c84e0e7d2")
 
 # Setting up the onStopped handler
 consumer.onStopped do |reason|
@@ -32,31 +32,40 @@ puts 'Consuming...'
 puts '----------------'
 consumer.consume(true) do |interaction|
 	if interaction
-		#puts interaction.to_yaml
+		begin
 		
-		content = interaction['interaction']['content']
-		retweets = interaction['links']['retweet_count'].first
-		url = interaction['links']['url'].first
-		
-		puts 'Content: ' + content
-		puts 'Retweet count: ' + retweets.to_s
-		puts 'Link URL: ' + url
-		
-		# Get page using Nokogiri
-		doc = Nokogiri::HTML(open(url))
-		imageUrl = doc.xpath('//div[@id="media_photo"]/span[@class="img"]/img').first.attr('src')
-		caption = doc.xpath('//div[@id="media_photo"]/p[@class="media-caption"]/span[@class="caption-text"]').first.content
-		
-		puts 'Image URL: ' + imageUrl		
-		puts 'Caption: ' + caption
-		
-		image = Image.find_or_initialize_by_url(imageUrl)
-		image.retweets = retweets
-		image.caption = caption
-		image.save
+			# puts interaction.to_yaml
+			
+			content = interaction['interaction']['content']
+			retweets = interaction['links']['retweet_count'].first
+			url = interaction['links']['url'].first
+			created_at = interaction['links']['created_at'].first
+			
+			puts 'Content: ' + content
+			puts 'Retweet count: ' + retweets.to_s
+			puts 'Link URL: ' + url
+			puts 'Link Created At: ' + created_at
+			
+			# Get page using Nokogiri
+			doc = Nokogiri::HTML(open(url))
+			imageUrl = doc.xpath('//div[@id="media_photo"]/span[@class="img"]/img').first.attr('src')
+			caption = doc.xpath('//div[@id="media_photo"]/p[@class="media-caption"]/span[@class="caption-text"]').first.content
+			
+			puts 'Image URL: ' + imageUrl		
+			puts 'Caption: ' + caption
+			
+			image = Image.find_or_initialize_by_url(imageUrl)
+			image.retweets = retweets
+			image.caption = caption
+			image.created_at = created_at
+			image.save
 
-		puts 'Saved to db'
-		puts '-------------'
+			puts 'Saved to db'
+			puts '-------------'
+			
+		rescue Exception => e  
+		  puts 'Caught exception: ' + e.message
+		end
 	end
 end
 
