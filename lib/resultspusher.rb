@@ -27,9 +27,9 @@ while true do
 		push_most_popular = 5
 	end
 	
-	images = Image.find(:all, :order => "(retweets + 1) / (julianday('now') - julianday(created_at)) DESC", :limit => limit)
+	images = Image.find(:all, :order => "(retweets + 1) * (retweets + 1) / (julianday('now') - julianday(created_at)) DESC", :limit => limit)
 
-	results = images.each_with_index.map do |image,index|
+	results = images.sort_by{|image|image.retweets}.reverse.each_with_index.map do |image,index|
 		ImageResult.new(image.url,image.retweets,true,(10 - index) ** 2, image.caption)
 	end
 	
